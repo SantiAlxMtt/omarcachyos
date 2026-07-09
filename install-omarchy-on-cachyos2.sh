@@ -55,6 +55,9 @@ sed -i '/tldr/d' install/omarchy-base.packages
 sed -i '/run_logged \$OMARCHY_INSTALL\/preflight\/pacman\.sh/d' install/preflight/all.sh
 sed -i '/run_logged \$OMARCHY_INSTALL\/post-install\/pacman\.sh/d' install/post-install/all.sh
 
+sed -i '/bootloader/d' install/preflight/all.sh 2>/dev/null || true
+find install/preflight -type f -exec sed -i '/Omarchy install requires: Limine bootloader/d' {} + 2>/dev/null || true
+
 # Asegurar que los scripts de actualización busquen linux-cachyos, no linux vanilla
 sed -i "s/ | sed 's\/-arch\/\\\.arch\/'//" bin/omarchy-update-restart
 sed -i "s/'{print \$2}'/'{print \$2 \"-\" \$1}' | sed 's\/-linux\/\/'/" bin/omarchy-update-restart
@@ -129,7 +132,7 @@ sed -i 's/omarchy-cmd-present mise && eval "\$(mise activate bash)"/if [ "\$SHEL
 echo "[5/5] Preparando instalación..."
 mkdir -p ~/.local/share/omarchy
 # Sincronizamos usando rsync para evitar recursividades en caso de ejecuciones múltiples
-rsync -a --exclude='.git' "$OMARCHY_DIR/" ~/.local/share/omarchy/
+rsync -a "$OMARCHY_DIR/" ~/.local/share/omarchy/
 cd ~/.local/share/omarchy
 
 echo "[✓] Capas separadas exitosamente. Iniciando Omarchy..."
