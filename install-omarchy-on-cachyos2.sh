@@ -45,6 +45,8 @@ echo "[*] Configurando identidad de Git automáticamente..."
 export OMARCHY_USER_NAME="SantiAlxMtt"
 export OMARCHY_USER_EMAIL="santiialxmtt@gmail.com"
 
+cd "$OMARCHY_DIR"
+
 # 4.1 Evitar conflictos de paquetes base y proteger el Kernel de CachyOS
 sed -i '/tldr/d' install/omarchy-base.packages
 sed -i '/run_logged \$OMARCHY_INSTALL\/preflight\/pacman\.sh/d' install/preflight/all.sh
