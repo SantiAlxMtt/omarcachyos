@@ -8,14 +8,6 @@ echo "  Hardware: Intel Iris Xe                              "
 echo "======================================================="
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# 1. Limpieza automática: El script borra la basura vieja de tu repositorio si existe
-if [ -d "$SCRIPT_DIR/omarchy-src" ]; then
-    echo "[*] Limpiando residuo antiguo en el directorio de trabajo..."
-    rm -rf "$SCRIPT_DIR/omarchy-src"
-fi
-
-# 2. Definición de la nueva "Fábrica" (Oculta y estandarizada en ~/.local/src)
 mkdir -p "$HOME/.local/src"
 OMARCHY_DIR="$HOME/.local/src/omarchy-build"
 
