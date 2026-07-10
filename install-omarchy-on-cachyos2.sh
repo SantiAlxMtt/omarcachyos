@@ -8,7 +8,16 @@ echo "  Hardware: Intel Iris Xe                              "
 echo "======================================================="
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OMARCHY_DIR="$SCRIPT_DIR/omarchy-src"
+
+# 1. Limpieza automática: El script borra la basura vieja de tu repositorio si existe
+if [ -d "$SCRIPT_DIR/omarchy-src" ]; then
+    echo "[*] Limpiando residuo antiguo en el directorio de trabajo..."
+    rm -rf "$SCRIPT_DIR/omarchy-src"
+fi
+
+# 2. Definición de la nueva "Fábrica" (Oculta y estandarizada en ~/.local/src)
+mkdir -p "$HOME/.local/src"
+OMARCHY_DIR="$HOME/.local/src/omarchy-build"
 
 echo "[1/5] Obteniendo código fuente de Omarchy..."
 if [ ! -d "$OMARCHY_DIR" ]; then
@@ -40,15 +49,9 @@ if [ -f /etc/sddm.conf ]; then
 fi
 sudo systemctl disable sddm.service 2>/dev/null || true
 
-echo ""
-read -p "Ingresa tu nombre de usuario (Nombre y Apellido): " OMARCHY_USER_NAME
-export OMARCHY_USER_NAME
-
-read -p "Ingresa tu correo electrónico: " OMARCHY_USER_EMAIL
-export OMARCHY_USER_EMAIL
-
-echo "[4/5] Aplicando parches de compatibilidad arquitectónica..."
-cd "$OMARCHY_DIR"
+echo "[*] Configurando identidad de Git automáticamente..."
+export OMARCHY_USER_NAME="SantiAlxMtt"
+export OMARCHY_USER_EMAIL="santiialxmtt@gmail.com"
 
 # 4.1 Evitar conflictos de paquetes base y proteger el Kernel de CachyOS
 sed -i '/tldr/d' install/omarchy-base.packages
